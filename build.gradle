@@ -1,0 +1,44 @@
+import org.apache.tools.ant.filters.ReplaceTokens
+
+group 'be.cegeka.sander'
+version '0'
+
+apply plugin: 'java'
+
+repositories() {
+    mavenCentral()
+}
+
+dependencies{
+    testCompile 'org.assertj:assertj-core:3.8.0'
+    testCompile group: 'junit', name: 'junit', version: '4.12'
+}
+
+task copyDocs(type: Copy) {
+    //filesNotMatching --> op te zoeken
+    from 'src/main/doc'
+    exclude '**/*.gif'
+    into "$buildDir/documentation"
+    filter(ReplaceTokens, tokens: [version: version])
+}
+
+task runMain(type: JavaExec) {
+    group = 'application'
+    dependsOn 'classes'
+    main = 'HelloWorld'
+    classpath = sourceSets.main.runtimeClasspath
+    doFirst {
+        args = [System.getProperty('name')]
+    }
+}
+
+task integrationTest(type: Test){
+
+}
+
+integrationTest.dependsOn(compileTestJava)
+subprojects {
+    task doIt() {
+        print '\nJust do it! https://www.youtube.com/watch?v=ZXsQAXx_ao0'
+    }
+}

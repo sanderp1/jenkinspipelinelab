@@ -1,0 +1,5 @@
+rootProject.name = 'gradle-test'
+include 'sumbmodule-1'
+findProject(':sumbmodule-1')?.name = 'sumbmodule1'
+include 'submodule-2'
+
