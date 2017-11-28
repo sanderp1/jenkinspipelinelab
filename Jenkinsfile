@@ -4,7 +4,7 @@ node {
     sh './gradlew classes'
   }
   stage('Test') {
-    sh './gradlew test'
-    step
+    sh './gradlew check'
+    step([$class: "JUnitResultArchiver", testResults: "**/build/test-results/**/TEST-*.xml"])
   }
 }
